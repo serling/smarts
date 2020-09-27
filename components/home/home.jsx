@@ -2,7 +2,6 @@ import { useReducer } from "react";
 
 import Dialoge from "../dialoge/dialoge";
 import Alternatives from "../alternatives/alternatives";
-import Loading from "../loading/loading";
 import ProfilePicture from "../profile-picture/profile-picture";
 
 import { initialLines, initialAlternatives } from "../../data/home";
@@ -137,11 +136,6 @@ const Home = () => {
           </div>
           <div className="home__thread">
             <Dialoge lines={state.lines} isLoading={state.isLoading} />
-            {state.isLoading && (
-              <div className="home__loading">
-                <Loading />
-              </div>
-            )}
           </div>
         </div>
 
@@ -172,14 +166,6 @@ const Home = () => {
             position: absolute;
             left: -100px;
             top: 0;
-          }
-
-          &__loading {
-            display: flex;
-            justify-content: flex-start;
-            position: absolute;
-            bottom: 0;
-            left: 2rem;
           }
 
           &__alternatives {

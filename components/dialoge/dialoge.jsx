@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import cn from "classnames";
 
 import Line from "../line/line";
+import Loading from "../loading/loading";
 
 const Dialoge = ({ lines, isLoading }) => {
   const threadRef = useRef();
@@ -33,13 +34,23 @@ const Dialoge = ({ lines, isLoading }) => {
               ))}
             </ul>
           )}
+          {isLoading && (
+            <div className="dialoge__loading">
+              <Loading />
+            </div>
+          )}
         </div>
       </div>
 
       <style jsx global>{`
         .dialoge {
           $self: &;
-          padding-bottom: 3rem;
+          padding-bottom: 2rem;
+
+          &__loading {
+            margin-top: 0.2rem;
+            padding-left: 1rem;
+          }
 
           &__item {
             margin-top: 1rem;
