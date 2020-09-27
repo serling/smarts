@@ -182,6 +182,9 @@ const Home = () => {
           &__loading {
             display: flex;
             justify-content: flex-start;
+            position: absolute;
+            bottom: 0;
+            left: 2rem;
           }
 
           &__alternatives {

@@ -39,8 +39,7 @@ const Dialoge = ({ lines }) => {
       <style jsx global>{`
         .dialoge {
           $self: &;
-
-          padding-bottom: 1rem;
+          padding-bottom: 3rem;
 
           &__item {
             margin-top: 1rem;
