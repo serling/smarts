@@ -8,7 +8,7 @@ const elements = {
 
 const themes = {
   default: "default",
-  dialoge: "dialoge"
+  dialoge: "dialoge",
 };
 
 const Clicker = ({ children, className, tag, href, theme, text, onClick }) => {
@@ -19,19 +19,22 @@ const Clicker = ({ children, className, tag, href, theme, text, onClick }) => {
     onClick,
     className: cn(
       "clicker",
-      { [`clicker--${themes[theme]}`]: themes[theme] }, 
+      { [`clicker--${themes[theme]}`]: themes[theme] },
       className
     ),
-  }
+  };
 
-  return <><Element {...props}>{children || text}</Element>
-  <style jsx>
+  return (
+    <>
+      <Element {...props}>{children || text}</Element>
+      <style jsx>
         {`
           .clicker {
             display: inline-block;
+            background-color: transparent;
+            border: 0;
 
             &__content {
-              
             }
 
             &--dialoge {
@@ -43,24 +46,25 @@ const Clicker = ({ children, className, tag, href, theme, text, onClick }) => {
               border: 1px solid black;
               box-shadow: 1px 1px 1px 0px #999696;
 
-              &:hover, &:focus {
-               text-decoration: none;
+              &:hover,
+              &:focus {
+                text-decoration: none;
               }
             }
 
             &--default {
               text-decoration: underline;
 
-              &:hover, &:focus {
-               text-decoration: none;
+              &:hover,
+              &:focus {
+                text-decoration: none;
               }
             }
           }
         `}
       </style>
-  </>;
-
-  
+    </>
+  );
 };
 
 Clicker.propTypes = {

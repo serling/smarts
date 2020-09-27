@@ -3,50 +3,39 @@ import Dialoge from "../dialoge/dialoge";
 
 const lines = [
   {
-    text: "hello",
+    author: "other",
+    text:
+      "Hey, what's up? Let me help you. I can do all sorts of stuff. Turning on lights, starting the vaccum cleaner. Change the tune for the washer. You name it!",
   },
   {
     author: "other",
-    text: "Hey, what's up?",
+    text: "Just let me know.",
   },
   {
-    text: "Nothing. You?",
-    action: 'ACTION.DO_SOMETHING'
+    text: "Add an alternative",
+    action: "add-line",
   },
   {
-    author: "other",
-    text: "The usual.",
+    text: "Add a response",
+    action: "add-response",
   },
   {
-    author: "other",
-    text: "Having fun! :)",
-  },
-  {
-    text: "Okay, cool.",
-  },
-  {
-    text: "Well, see you later.",
-  },
-  {
-    text: "Bye.",
+    text: "Turn on the washer",
   },
 ];
 
-//TODO: handle onclick for dialoge lines
-
 const Home = () => {
-  const handleOnClick = action => {
+  const handleOnClick = (action) => {
     console.log("clickety!", action);
   };
 
   const handleOnAddLine = () => {
     console.log("adding line");
-  } 
+  };
 
-  const handleOnRemoveLine = () => {
-    console.log("removing line");
-  } 
-
+  const handleOnAddResponse = () => {
+    console.log("adding response");
+  };
 
   return (
     <>
@@ -57,13 +46,13 @@ const Home = () => {
         </div>
         <div className="home__debug">
           <Clicker text="add line" onClick={handleOnAddLine} />
-          <Clicker text="remove line" onClick={handleOnAddLine} />
+          <Clicker text="add response" onClick={handleOnAddResponse} />
         </div>
       </div>
       <style jsx>{`
         .home {
           position: relative;
-          
+
           &__debug {
             position: absolute;
             top: 0;
