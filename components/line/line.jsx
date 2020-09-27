@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import cn from "classnames";
 import { Slide } from "react-awesome-reveal";
+import TimeAgo from "timeago-react";
 
 import Clicker from "../clicker/clicker";
 
@@ -12,6 +13,8 @@ const authors = {
 const Line = ({ text, author, action, onClick }) => {
   const itsMe = author === authors.me;
 
+  const date = new Date(); //TODO: refreshes every change
+
   return (
     <>
       <Slide triggerOnce duration={200} direction={itsMe ? "right" : "left"}>
@@ -20,7 +23,15 @@ const Line = ({ text, author, action, onClick }) => {
             [`line--${authors[author]}`]: authors[author],
           })}
         >
-          {!itsMe && <div className="line__by">Ryan said</div>}
+          <div className="line__header">
+            <span className="line__by">
+              {`${itsMe ? "You" : "Ryan"} said, `}
+            </span>
+            <span>
+              <TimeAgo datetime={date} opts={{ minInterval: 60 }} />
+            </span>
+          </div>
+
           {itsMe && action ? (
             <Clicker
               onClick={() => action && onClick(action)}
@@ -35,9 +46,13 @@ const Line = ({ text, author, action, onClick }) => {
 
       <style jsx>{`
         .line {
-          &__by {
+          &__header {
+            display: flex;
             font-size: 0.6rem;
             color: #9e9e9e;
+          }
+          &__by {
+            margin: 0 0.2rem 0.2rem 0;
           }
 
           &__text {

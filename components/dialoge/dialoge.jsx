@@ -50,13 +50,6 @@ const Dialoge = ({ lines }) => {
     });
   };
 
-  const transitionStyles = {
-    entering: { opacity: 1 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 0 },
-    exited: { opacity: 0 },
-  };
-
   return (
     <>
       <div className="dialoge">
@@ -67,10 +60,6 @@ const Dialoge = ({ lines }) => {
           <ul className="dialoge__list">
             {state.lines.map((line, index) => (
               <li
-                style={{
-                  transition: `opacity 300ms ease-in-out`,
-                  ...transitionStyles[state],
-                }}
                 key={index}
                 className={cn("dialoge__item", {
                   "dialoge__item--other": line.author === "other",
@@ -83,6 +72,41 @@ const Dialoge = ({ lines }) => {
           </ul>
         )}
       </div>
+      <style jsx global>{`
+        .dialoge {
+          $self: &;
+
+          &__item {
+            margin-top: 1rem;
+
+            &:first-child {
+              margin-top: 0;
+            }
+
+            &--me {
+              align-self: flex-end;
+
+              + #{$self}__item--me {
+                margin-top: 0.25rem;
+
+                .line__header {
+                  display: none;
+                }
+              }
+            }
+
+            &--other {
+              + #{$self}__item--other {
+                margin-top: 0.25rem;
+
+                .line__header {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      `}</style>
       <style jsx>
         {`
           .dialoge {
@@ -98,28 +122,6 @@ const Dialoge = ({ lines }) => {
             &__list {
               display: flex;
               flex-direction: column;
-            }
-
-            &__item {
-              margin-top: 1rem;
-
-              &:first-child {
-                margin-top: 0;
-              }
-
-              &--me {
-                align-self: flex-end;
-
-                + #{$self}__item--me {
-                  margin-top: 0.25rem;
-                }
-              }
-
-              &--other {
-                + #{$self}__item--other {
-                  margin-top: 0.25rem;
-                }
-              }
             }
           }
         `}
