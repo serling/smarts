@@ -3,7 +3,17 @@ import PropTypes from "prop-types";
 
 import Clicker from "../clicker/clicker";
 
-const Alternatives = ({ alternatives }) => {
+const Alternatives = ({ alternatives, dispatch }) => {
+  const handleOnClick = (action) => {
+    dispatch({
+      type: action,
+      payload: {
+        text: "Hello",
+        timestamp: Date.now(),
+      },
+    });
+  };
+
   return (
     <>
       <div className="alternatives">
@@ -12,7 +22,11 @@ const Alternatives = ({ alternatives }) => {
             return (
               <li key={index} className="alternatives__item">
                 <AttentionSeeker duration={1200} effect="pulse">
-                  <Clicker {...alternative} theme={Clicker.themes.dialoge} />
+                  <Clicker
+                    {...alternative}
+                    theme={Clicker.themes.dialoge}
+                    onClick={() => handleOnClick(alternative.action)}
+                  />
                 </AttentionSeeker>
               </li>
             );

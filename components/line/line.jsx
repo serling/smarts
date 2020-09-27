@@ -10,10 +10,8 @@ const authors = {
   other: "other",
 };
 
-const Line = ({ text, author, action, onClick }) => {
+const Line = ({ text, author, action, onClick, timestamp }) => {
   const itsMe = author === authors.me;
-
-  const date = new Date(); //TODO: refreshes every change
 
   return (
     <>
@@ -24,12 +22,15 @@ const Line = ({ text, author, action, onClick }) => {
           })}
         >
           <div className="line__header">
-            <span className="line__by">
-              {`${itsMe ? "You" : "Ryan"} said, `}
-            </span>
-            <span>
-              <TimeAgo datetime={date} opts={{ minInterval: 60 }} />
-            </span>
+            <span className="line__by">{`${itsMe ? "You" : "Ryan"} said`}</span>
+            {timestamp && (
+              <span>
+                <TimeAgo
+                  datetime={timestamp}
+                  opts={{ minInterval: 1 }} // relativeDate: timestamp
+                />
+              </span>
+            )}
           </div>
 
           {itsMe && action ? (
@@ -46,22 +47,45 @@ const Line = ({ text, author, action, onClick }) => {
 
       <style jsx>{`
         .line {
+          $self: &;
+          margin-left: 1rem;
+
           &__header {
             display: flex;
             font-size: 0.6rem;
             color: #9e9e9e;
+            margin: 0 0 0.2rem 0;
           }
+
           &__by {
-            margin: 0 0.2rem 0.2rem 0;
+            margin-right: 0.2rem;
+          }
+
+          &--me {
+            #{$self}__header {
+              justify-content: flex-end;
+            }
+
+            #{$self}__text {
+              border-top-left-radius: 4px;
+            }
+          }
+
+          &--other {
+            #{$self}__text {
+              border-bottom-right-radius: 4px;
+            }
           }
 
           &__text {
+            position: relative;
             background-color: #fdf8ea;
             display: inline-block;
             padding: 0.25rem 1rem;
-            border-radius: 4px;
+            border-top-right-radius: 4px;
+            border-bottom-left-radius: 4px;
             border: 1px solid black;
-            box-shadow: 1px 1px 1px 0px #999696;
+            box-shadow: 2px 2px 5px 0px #d4d2d2;
           }
         }
       `}</style>
@@ -72,6 +96,7 @@ const Line = ({ text, author, action, onClick }) => {
 Line.propTypes = {
   text: PropTypes.string.isRequired,
   action: PropTypes.string,
+  timestamp: PropTypes.any, //TODO
   author: PropTypes.oneOf(Object.values(authors)),
 };
 

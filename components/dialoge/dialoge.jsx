@@ -1,80 +1,47 @@
-import { useReducer, useEffect } from "react";
-import { Slide } from "react-awesome-reveal";
+import { useRef, useEffect } from "react";
 
 import PropTypes from "prop-types";
 import cn from "classnames";
 
 import Line from "../line/line";
-import ProfilePicture from "../profile-picture/profile-picture";
 
-const reducer = (state, action) => {
-  const { payload } = action;
+const Dialoge = ({ lines, ref }) => {
+  const handleOnClick = (action) => {};
+  const threadRef = useRef();
 
-  switch (action.type) {
-    case "add-response":
-      return {
-        ...state,
-        lines: [
-          ...state.lines,
-          {
-            text: payload.text,
-            author: "other",
-          },
-        ],
-      };
-    case "add-line":
-      console.log("--> adding line");
-      return {
-        ...state,
-        lines: [
-          ...state.lines,
-          {
-            text: payload.text,
-          },
-        ],
-      };
-    case "remove-line":
-      return state;
-    default:
-      throw new Error();
-  }
-};
+  useEffect(() => {
+    if (!threadRef) return;
 
-const Dialoge = ({ lines }) => {
-  const [state, dispatch] = useReducer(reducer, { lines });
-
-  const handleOnClick = (action) => {
-    dispatch({
-      type: action,
-      payload: { text: "This line was added dynamically." },
-    });
-  };
+    threadRef.current.scrollTop = threadRef.current.scrollHeight;
+  }, [lines]);
 
   return (
     <>
-      <div className="dialoge">
-        <div className="dialoge__image">
-          <ProfilePicture src="ryan.jpg" />
+      <div className="dialoge" ref={threadRef}>
+        <div className="dialoge__content">
+          {lines.length > 0 && (
+            <ul className="dialoge__list">
+              {lines.map((line, index) => (
+                <li
+                  key={index}
+                  className={cn("dialoge__item", {
+                    "dialoge__item--other": line.author === "other",
+                    "dialoge__item--me": line.author !== "other",
+                  })}
+                >
+                  <Line {...line} onClick={handleOnClick} />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-        {state.lines.length > 0 && (
-          <ul className="dialoge__list">
-            {state.lines.map((line, index) => (
-              <li
-                key={index}
-                className={cn("dialoge__item", {
-                  "dialoge__item--other": line.author === "other",
-                  "dialoge__item--me": line.author !== "other",
-                })}
-              >
-                <Line {...line} onClick={handleOnClick} />
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
+
       <style jsx global>{`
         .dialoge {
           $self: &;
+
+          padding-bottom: 1rem;
 
           &__item {
             margin-top: 1rem;
@@ -111,10 +78,12 @@ const Dialoge = ({ lines }) => {
         {`
           .dialoge {
             $self: &;
+            height: 500px;
+            overflow-y: scroll;
+            overflow-x: hidden;
 
-            &__image {
-              display: inline-block;
-              margin: 0.5rem;
+            &__content {
+              padding: 0 1rem;
             }
 
             &__list {
