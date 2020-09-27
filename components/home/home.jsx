@@ -72,9 +72,11 @@ const reducer = (state, action) => {
   }
 };
 
-const awaitDelay = (delayInMs) => {
+const awaitDelay = () => {
+  const rnd = Math.floor(Math.random() * Math.floor(3)) * 1000;
+
   return new Promise(function (resolve) {
-    setTimeout(resolve, delayInMs);
+    setTimeout(resolve, rnd);
   });
 };
 
@@ -92,7 +94,7 @@ const Home = () => {
       payload: { isLoading: true },
     });
 
-    await awaitDelay(2000);
+    await awaitDelay();
 
     dispatch({
       type: "add-response",
@@ -109,7 +111,7 @@ const Home = () => {
       },
     });
 
-    await awaitDelay(2000);
+    await awaitDelay();
 
     dispatch({
       type: "toggle-loading",
