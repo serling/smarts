@@ -8,14 +8,15 @@ const initialLines = [
     author: "other",
     text: "Just let me know.",
   },
-  {
-    text: "Turn on the washer",
-  },
 ];
 
 const initialAlternatives = [
   {
     text: "Hello",
+    action: "add-line",
+  },
+  {
+    text: "How are you?",
     action: "add-line",
   },
   {

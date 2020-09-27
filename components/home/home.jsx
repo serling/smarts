@@ -7,10 +7,19 @@ import ProfilePicture from "../profile-picture/profile-picture";
 
 import { initialLines, initialAlternatives } from "../../data/home";
 
+const init = ({ initialLines, initialAlternatives }) => {
+  return {
+    lines: initialLines,
+    alternatives: initialAlternatives,
+    isLoading: false,
+  };
+};
+
 const reducer = (state, action) => {
   const { payload } = action;
 
   switch (action.type) {
+    //TODO: add-response should always feature a delay! Pipe to <Line /> animation?
     case "add-response":
       console.log("--> adding response from Ryan");
       return {
@@ -42,6 +51,19 @@ const reducer = (state, action) => {
         ...state,
         alternatives: payload.alternatives,
       };
+    case "reset-alternatives":
+      console.log("--> resetting dialoge tree");
+      return {
+        ...state,
+        lines: [
+          ...state.lines,
+          {
+            text: payload.text,
+          },
+        ],
+        alternatives: initialAlternatives,
+        isLoading: false,
+      };
     case "toggle-loading":
       console.log("--> toggling loading");
       return { ...state, isLoading: payload.isLoading };
@@ -51,13 +73,11 @@ const reducer = (state, action) => {
   }
 };
 
-const init = ({ initialLines, initialAlternatives }) => {
-  return {
-    lines: initialLines,
-    alternatives: initialAlternatives,
-    isLoading: false,
-  };
-};
+function delay(delay) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, delay);
+  });
+}
 
 const Home = () => {
   const [state, dispatch] = useReducer(
@@ -66,9 +86,59 @@ const Home = () => {
     init
   );
 
+  //TODO: figure out interface towards more complex actions/series of actions
+  const turnOnLights = async () => {
+    dispatch({
+      type: "toggle-loading",
+      payload: { isLoading: true },
+    });
+
+    await delay(2000); //TODO: async op
+
+    dispatch({
+      type: "toggle-loading",
+      payload: { isLoading: false },
+    });
+
+    dispatch({
+      type: "add-response",
+      payload: { text: "There you go, buddy. All set." },
+    });
+
+    dispatch({
+      type: "add-alternatives",
+      payload: {
+        alternatives: [
+          { text: "Thanks!", action: "reset-alternatives" },
+          { text: "Okay, nice.", action: "reset-alternatives" },
+        ],
+      },
+    });
+
+    dispatch({
+      type: "toggle-loading",
+      payload: { isLoading: true },
+    });
+
+    await delay(1000);
+
+    dispatch({
+      type: "toggle-loading",
+      payload: { isLoading: false },
+    });
+
+    dispatch({
+      type: "add-response",
+      payload: { text: "What else can I do you for?" },
+    });
+  };
+
   return (
     <>
       <div className="home">
+        <div>
+          <button onClick={turnOnLights}>mock async</button>
+        </div>
         <h1 className="home__title">Ryan's House</h1>
         <div className="home__chat">
           <div className="home__image">

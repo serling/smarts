@@ -25,10 +25,7 @@ const Line = ({ text, author, action, onClick, timestamp }) => {
             <span className="line__by">{`${itsMe ? "You" : "Ryan"} said`}</span>
             {timestamp && (
               <span>
-                <TimeAgo
-                  datetime={timestamp}
-                  opts={{ minInterval: 1 }} // relativeDate: timestamp
-                />
+                <TimeAgo datetime={timestamp} opts={{ minInterval: 60 }} />
               </span>
             )}
           </div>

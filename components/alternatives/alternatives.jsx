@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 import Clicker from "../clicker/clicker";
 
 const Alternatives = ({ alternatives, dispatch }) => {
-  const handleOnClick = (action) => {
+  const handleOnClick = (text, action) => {
     dispatch({
       type: action,
       payload: {
-        text: "Hello",
+        text,
         timestamp: Date.now(),
       },
     });
@@ -25,7 +25,9 @@ const Alternatives = ({ alternatives, dispatch }) => {
                   <Clicker
                     {...alternative}
                     theme={Clicker.themes.dialoge}
-                    onClick={() => handleOnClick(alternative.action)}
+                    onClick={() =>
+                      handleOnClick(alternative.text, alternative.action)
+                    }
                   />
                 </AttentionSeeker>
               </li>

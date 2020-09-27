@@ -5,8 +5,7 @@ import cn from "classnames";
 
 import Line from "../line/line";
 
-const Dialoge = ({ lines, ref }) => {
-  const handleOnClick = (action) => {};
+const Dialoge = ({ lines }) => {
   const threadRef = useRef();
 
   useEffect(() => {
@@ -29,7 +28,7 @@ const Dialoge = ({ lines, ref }) => {
                     "dialoge__item--me": line.author !== "other",
                   })}
                 >
-                  <Line {...line} onClick={handleOnClick} />
+                  <Line {...line} />
                 </li>
               ))}
             </ul>
