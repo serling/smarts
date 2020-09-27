@@ -11,12 +11,22 @@ const themes = {
   dialoge: "dialoge",
 };
 
-const Clicker = ({ children, className, tag, href, theme, text, onClick }) => {
+const Clicker = ({
+  children,
+  className,
+  tag,
+  href,
+  theme,
+  text,
+  onClick,
+  isDisabled,
+}) => {
   const Element = href ? elements.link : elements[tag];
 
   const props = {
     href,
     onClick,
+    disabled: isDisabled,
     className: cn(
       "clicker",
       { [`clicker--${themes[theme]}`]: themes[theme] },

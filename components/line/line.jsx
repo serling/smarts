@@ -10,12 +10,17 @@ const authors = {
   other: "other",
 };
 
-const Line = ({ text, author, action, onClick, timestamp }) => {
+const Line = ({ text, author, action, onClick, timestamp, isDisabled }) => {
   const itsMe = author === authors.me;
 
   return (
     <>
-      <Slide triggerOnce duration={200} direction={itsMe ? "right" : "left"}>
+      <Slide
+        triggerOnce
+        duration={200}
+        // delay={3000}
+        direction={itsMe ? "right" : "left"}
+      >
         <div
           className={cn("line", {
             [`line--${authors[author]}`]: authors[author],
@@ -32,6 +37,7 @@ const Line = ({ text, author, action, onClick, timestamp }) => {
 
           {itsMe && action ? (
             <Clicker
+              isDisabled={isDisabled}
               onClick={() => action && onClick(action)}
               theme={Clicker.themes.dialoge}
               text={text}
@@ -93,6 +99,8 @@ const Line = ({ text, author, action, onClick, timestamp }) => {
 Line.propTypes = {
   text: PropTypes.string.isRequired,
   action: PropTypes.string,
+  onClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
   timestamp: PropTypes.any, //TODO
   author: PropTypes.oneOf(Object.values(authors)),
 };

@@ -5,7 +5,7 @@ import cn from "classnames";
 
 import Line from "../line/line";
 
-const Dialoge = ({ lines }) => {
+const Dialoge = ({ lines, isLoading }) => {
   const threadRef = useRef();
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Dialoge = ({ lines }) => {
                     "dialoge__item--me": line.author !== "other",
                   })}
                 >
-                  <Line {...line} />
+                  <Line {...line} isDisabled={isLoading} />
                 </li>
               ))}
             </ul>

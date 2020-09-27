@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import Clicker from "../clicker/clicker";
 
-const Alternatives = ({ alternatives, dispatch }) => {
+const Alternatives = ({ alternatives, dispatch, isDisabled }) => {
   const handleOnClick = (text, action) => {
     dispatch({
       type: action,
@@ -25,6 +25,7 @@ const Alternatives = ({ alternatives, dispatch }) => {
                   <Clicker
                     {...alternative}
                     theme={Clicker.themes.dialoge}
+                    isDisabled={isDisabled}
                     onClick={() =>
                       handleOnClick(alternative.text, alternative.action)
                     }

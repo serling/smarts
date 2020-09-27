@@ -19,7 +19,6 @@ const reducer = (state, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    //TODO: add-response should always feature a delay! Pipe to <Line /> animation?
     case "add-response":
       console.log("--> adding response from Ryan");
       return {
@@ -73,11 +72,11 @@ const reducer = (state, action) => {
   }
 };
 
-function delay(delay) {
+const awaitDelay = (delayInMs) => {
   return new Promise(function (resolve) {
-    setTimeout(resolve, delay);
+    setTimeout(resolve, delayInMs);
   });
-}
+};
 
 const Home = () => {
   const [state, dispatch] = useReducer(
@@ -93,16 +92,11 @@ const Home = () => {
       payload: { isLoading: true },
     });
 
-    await delay(2000); //TODO: async op
-
-    dispatch({
-      type: "toggle-loading",
-      payload: { isLoading: false },
-    });
+    await awaitDelay(2000);
 
     dispatch({
       type: "add-response",
-      payload: { text: "There you go, buddy. All set." },
+      payload: { text: "There you go, buddy. All set.", timestamp: Date.now() },
     });
 
     dispatch({
@@ -110,17 +104,12 @@ const Home = () => {
       payload: {
         alternatives: [
           { text: "Thanks!", action: "reset-alternatives" },
-          { text: "Okay, nice.", action: "reset-alternatives" },
+          { text: "Okay, nice.", action: "add-line", timestamp: Date.now() },
         ],
       },
     });
 
-    dispatch({
-      type: "toggle-loading",
-      payload: { isLoading: true },
-    });
-
-    await delay(1000);
+    await awaitDelay(2000);
 
     dispatch({
       type: "toggle-loading",
@@ -145,7 +134,7 @@ const Home = () => {
             <ProfilePicture src="ryan.jpg" />
           </div>
           <div className="home__thread">
-            <Dialoge lines={state.lines} />
+            <Dialoge lines={state.lines} isLoading={state.isLoading} />
             {state.isLoading && (
               <div className="home__loading">
                 <Loading />
@@ -155,7 +144,11 @@ const Home = () => {
         </div>
 
         <div className="home__alternatives">
-          <Alternatives alternatives={state.alternatives} dispatch={dispatch} />
+          <Alternatives
+            alternatives={state.alternatives}
+            dispatch={dispatch}
+            isDisabled={state.isLoading}
+          />
         </div>
       </div>
       <style jsx>{`
