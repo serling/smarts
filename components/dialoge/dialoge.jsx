@@ -17,23 +17,25 @@ const Dialoge = ({ lines, isLoading }) => {
 
   return (
     <>
-      <div className="dialoge" ref={threadRef}>
-        <div className="dialoge__content">
-          {lines.length > 0 && (
-            <ul className="dialoge__list">
-              {lines.map((line, index) => (
-                <li
-                  key={index}
-                  className={cn("dialoge__item", {
-                    "dialoge__item--other": line.author === "other",
-                    "dialoge__item--me": line.author !== "other",
-                  })}
-                >
-                  <Line {...line} isDisabled={isLoading} />
-                </li>
-              ))}
-            </ul>
-          )}
+      <div className="dialoge">
+        <div className="dialoge__wrapper" ref={threadRef}>
+          <div className="dialoge__content">
+            {lines.length > 0 && (
+              <ul className="dialoge__list">
+                {lines.map((line, index) => (
+                  <li
+                    key={index}
+                    className={cn("dialoge__item", {
+                      "dialoge__item--other": line.author === "other",
+                      "dialoge__item--me": line.author !== "other",
+                    })}
+                  >
+                    <Line {...line} isDisabled={isLoading} />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
           {isLoading && (
             <div className="dialoge__loading">
               <Loading />
@@ -41,16 +43,9 @@ const Dialoge = ({ lines, isLoading }) => {
           )}
         </div>
       </div>
-
       <style jsx global>{`
         .dialoge {
           $self: &;
-          padding-bottom: 2rem;
-
-          &__loading {
-            margin-top: 0.2rem;
-            padding-left: 1rem;
-          }
 
           &__item {
             margin-top: 1rem;
@@ -87,12 +82,26 @@ const Dialoge = ({ lines, isLoading }) => {
         {`
           .dialoge {
             $self: &;
-            height: 500px;
-            overflow-y: scroll;
-            overflow-x: hidden;
+
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+
+            &__wrapper {
+              height: 500px;
+              overflow-y: scroll;
+              overflow-x: hidden;
+              padding-right: 17px;
+              box-sizing: content-box;
+              width: 100%;
+            }
+
+            &__loading {
+              padding-left: 1rem;
+            }
 
             &__content {
-              padding: 0 1rem;
+              padding-bottom: 0.5rem;
             }
 
             &__list {
