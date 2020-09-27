@@ -10,13 +10,14 @@ const themes = {
   default: "default",
 };
 
-const Clicker = ({ children, className, tag, href, theme, text }) => {
+const Clicker = ({ children, className, tag, href, theme, text, onClick }) => {
   return (
     <>
       {React.createElement(
         `${href ? "a" : elements[tag]}`,
         {
           href,
+          onClick,
           className: cn(
             "clicker",
             { [`clicker--${themes[theme]}`]: themes[theme] },
@@ -28,6 +29,9 @@ const Clicker = ({ children, className, tag, href, theme, text }) => {
       <style jsx>
         {`
           .clicker {
+            &__content {
+              color: black;
+            }
           }
         `}
       </style>
@@ -39,6 +43,7 @@ Clicker.propTypes = {
   tag: PropTypes.oneOf(Object.values(elements)),
   href: PropTypes.string,
   text: PropTypes.string,
+  onClick: PropTypes.func,
   className: PropTypes.string,
   theme: PropTypes.oneOf(Object.values(themes)),
 };
