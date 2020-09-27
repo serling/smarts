@@ -1,5 +1,7 @@
 import Clicker from "../clicker/clicker";
 import Dialoge from "../dialoge/dialoge";
+import Alternatives from "../alternatives/alternatives";
+import Loading from "../loading/loading";
 
 const lines = [
   {
@@ -12,6 +14,12 @@ const lines = [
     text: "Just let me know.",
   },
   {
+    text: "Turn on the washer",
+  },
+];
+
+const alternatives = [
+  {
     text: "Add an alternative",
     action: "add-line",
   },
@@ -19,39 +27,46 @@ const lines = [
     text: "Add a response",
     action: "add-response",
   },
-  {
-    text: "Turn on the washer",
-  },
 ];
 
 const Home = () => {
-  const handleOnClick = (action) => {
-    console.log("clickety!", action);
-  };
-
-  const handleOnAddLine = () => {
-    console.log("adding line");
-  };
-
-  const handleOnAddResponse = () => {
-    console.log("adding response");
-  };
+  const isLoading = false;
 
   return (
     <>
       <div className="home">
-        <h1 className="home__title">HOME</h1>
-        <div>
-          <Dialoge lines={lines} onLineClick={handleOnClick} />
+        <h1 className="home__title">Ryan's House</h1>
+        <div className="home__chat">
+          <Dialoge lines={lines} />
+          {isLoading && (
+            <div className="home__loading">
+              <Loading />
+            </div>
+          )}
         </div>
-        <div className="home__debug">
-          <Clicker text="add line" onClick={handleOnAddLine} />
-          <Clicker text="add response" onClick={handleOnAddResponse} />
+        <div className="home__alternatives">
+          <Alternatives alternatives={alternatives} />
         </div>
       </div>
       <style jsx>{`
         .home {
           position: relative;
+
+          &__chat {
+            max-width: 400px;
+            margin: 0 auto;
+          }
+
+          &__loading {
+            display: flex;
+            justify-content: flex-start;
+          }
+
+          &__alternatives {
+            border-top: 1px solid #eae9e9;
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+          }
 
           &__debug {
             position: absolute;

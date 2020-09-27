@@ -111,8 +111,6 @@ const Dialoge = ({ lines }) => {
         {`
           .dialoge {
             $self: &;
-            max-width: 400px;
-            margin: 0 auto;
 
             &__image {
               display: inline-block;
