@@ -20,6 +20,7 @@ const ProfilePicture = ({ src, size }) => {
         .profile-picture {
           border: 1px solid black;
           border-radius: 50%;
+          overflow: hidden;
 
           &--normal {
             width: 100px;

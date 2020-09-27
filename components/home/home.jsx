@@ -31,6 +31,8 @@ const lines = [
   },
 ];
 
+//TODO: handle onclick for dialoge lines
+
 const Home = () => {
   const handleOnClick = () => {
     console.log("clickety!");
@@ -40,9 +42,6 @@ const Home = () => {
     <>
       <div className="home">
         <h1 className="home__title">HOME</h1>
-        <div>
-          <Clicker href="#" text="click" onClick={handleOnClick} />
-        </div>
         <div>
           <Dialoge lines={lines} />
         </div>

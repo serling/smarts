@@ -9,7 +9,7 @@ const Dialoge = ({ lines }) => {
     <>
       <div className="dialoge">
         <div className="dialoge__image">
-          <ProfilePicture src="../public/ryan.jpg" />
+          <ProfilePicture src="ryan.jpg" />
         </div>
         {lines.length > 0 && (
           <ul className="dialoge__list">

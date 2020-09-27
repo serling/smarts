@@ -1,12 +1,14 @@
 import PropTypes from "prop-types";
 import cn from "classnames";
 
+import Clicker from "../clicker/clicker";
+
 const authors = {
   me: "me",
   other: "other",
 };
 
-const Line = ({ text, delay, author }) => {
+const Line = ({ text, author, onClick }) => {
   return (
     <>
       <div
@@ -14,7 +16,17 @@ const Line = ({ text, delay, author }) => {
           [`line--${authors[author]}`]: authors[author],
         })}
       >
-        {text && <p className="line__text">{text}</p>}
+        {text &&
+          React.createElement(
+            author === authors.other ? "p" : Clicker,
+            {
+              onClick,
+              tag: "button",
+              text,
+              className: "line__text",
+            },
+            <span>{text}</span>
+          )}
       </div>
       <style jsx>{`
         .line {
@@ -38,7 +50,7 @@ const Line = ({ text, delay, author }) => {
 
 Line.propTypes = {
   text: PropTypes.string,
-  delay: PropTypes.number,
+  onClick: PropTypes.func,
   author: PropTypes.oneOf(Object.values(authors)),
 };
 
