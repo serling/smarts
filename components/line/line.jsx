@@ -8,7 +8,13 @@ const authors = {
   other: "other",
 };
 
-const Line = ({ text, author, onClick }) => {
+const Line = ({ text, author, action }) => {
+  const itsMe = author === authors.me;
+
+  const handleOnClick = action => {
+    console.log("click action:", action);
+  }
+
   return (
     <>
       <div
@@ -16,31 +22,18 @@ const Line = ({ text, author, onClick }) => {
           [`line--${authors[author]}`]: authors[author],
         })}
       >
-        {text &&
-          React.createElement(
-            author === authors.other ? "p" : Clicker,
-            {
-              onClick,
-              tag: "button",
-              text,
-              className: "line__text",
-            },
-            <span>{text}</span>
-          )}
+        {itsMe && action ?
+        <Clicker onClick={() => action && handleOnClick(action)} theme={Clicker.themes.dialoge} text={text} /> : <p className="line__text">{text}</p>}
       </div>
       <style jsx>{`
         .line {
-          background-color: #fdf8ea;
-          display: inline-block;
-          padding: 0.25rem 1rem;
-          border-radius: 4px;
-          border: 1px solid black;
-          box-shadow: 1px 1px 1px 0px #999696;
-
-          &--me {
-          }
-
-          &--other {
+          &__text {
+            background-color: #fdf8ea;
+            display: inline-block;
+            padding: 0.25rem 1rem;
+            border-radius: 4px;
+            border: 1px solid black;
+            box-shadow: 1px 1px 1px 0px #999696;
           }
         }
       `}</style>
@@ -49,13 +42,13 @@ const Line = ({ text, author, onClick }) => {
 };
 
 Line.propTypes = {
-  text: PropTypes.string,
-  onClick: PropTypes.func,
+  text: PropTypes.string.isRequired,
+  action: PropTypes.string,
   author: PropTypes.oneOf(Object.values(authors)),
 };
 
 Line.defaultProps = {
-  author: authors.me,
+  author: authors.me
 };
 
 export default Line;

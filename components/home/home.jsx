@@ -11,6 +11,7 @@ const lines = [
   },
   {
     text: "Nothing. You?",
+    action: 'ACTION.DO_SOMETHING'
   },
   {
     author: "other",
@@ -34,21 +35,40 @@ const lines = [
 //TODO: handle onclick for dialoge lines
 
 const Home = () => {
-  const handleOnClick = () => {
-    console.log("clickety!");
+  const handleOnClick = action => {
+    console.log("clickety!", action);
   };
+
+  const handleOnAddLine = () => {
+    console.log("adding line");
+  } 
+
+  const handleOnRemoveLine = () => {
+    console.log("removing line");
+  } 
+
 
   return (
     <>
       <div className="home">
         <h1 className="home__title">HOME</h1>
         <div>
-          <Dialoge lines={lines} />
+          <Dialoge lines={lines} onLineClick={handleOnClick} />
+        </div>
+        <div className="home__debug">
+          <Clicker text="add line" onClick={handleOnAddLine} />
+          <Clicker text="remove line" onClick={handleOnAddLine} />
         </div>
       </div>
       <style jsx>{`
         .home {
-          &__title {
+          position: relative;
+          
+          &__debug {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 2rem;
           }
         }
       `}</style>

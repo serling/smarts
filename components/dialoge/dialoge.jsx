@@ -21,7 +21,7 @@ const Dialoge = ({ lines }) => {
                   "dialoge__item--me": line.author !== "other",
                 })}
               >
-                <Line {...line} />
+                  <Line {...line}/>
               </li>
             ))}
           </ul>
